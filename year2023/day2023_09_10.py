@@ -114,8 +114,22 @@ circularly linked list
 #
 # print(array_sum([2, 1, 5, 2, 3, 2], 7))
 
+start = int(input("start:"))
+end = int(input("end:"))
+flag = False
+print("Prime numbers between " + str(min(start, end)) + " and " + str(max(start, end)))
+if max(start, end) > 2:
+    temp = [2]
+    for i in range(3, max(start, end) + 1):
+        for j in temp:
+            if i % j == 0:
+                flag = True
 
-# l= {1, 2, 3, 4, 5, 6}
-# s = {4, 5, 6, 7, 8, 9}
-x = 7.0001
-print(round(x, 2))
+        if not flag:
+            temp.append(i)
+            print(str(i) + " is prime")
+        else:
+            flag = False
+
+else:
+    print("None")
