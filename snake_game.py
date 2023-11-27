@@ -120,6 +120,7 @@ while True:
         segments.append(new_segment)
         segments.append(new_segment)
         segments.append(new_segment)
+<<<<<<< HEAD
         segments.append(new_segment)
         segments.append(new_segment)
         segments.append(new_segment)
@@ -132,6 +133,8 @@ while True:
         segments.append(new_segment)
         segments.append(new_segment)
         segments.append(new_segment)
+=======
+>>>>>>> origin/main
         score_display += 1
         score.clear()
         score.write("Score :" + str(score_display), align="center", font=("candara", 24, "bold"))
