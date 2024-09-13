@@ -7,7 +7,7 @@ from openai import OpenAI
 app = Flask(__name__)
 
 # Set up OpenAI API key
-client = OpenAI(api_key="a")
+client = OpenAI(api_key="abbb")
 
 # Define route to serve the HTML file
 @app.route('/')
