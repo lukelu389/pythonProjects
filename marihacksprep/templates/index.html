@@ -1,0 +1,33 @@
+<!-- templates/template.html (Frontend) -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Question Answering</title>
+</head>
+<body>
+    <h1>Ask AI</h1>
+    <input type="text" id="question-input">
+    <button onclick="askQuestion()">Ask</button>
+    <div id="answer"></div>
+
+    <script>
+        function askQuestion() {
+            const question = document.getElementById('question-input').value;
+            fetch('/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({question: question})
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('answer').innerText = data.answer;
+            });
+        }
+    </script>
+</body>
+</html>

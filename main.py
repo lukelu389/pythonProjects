@@ -1,16 +1,18 @@
-# This is a sample Python script.
+import pdfkit
+import email
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+# Read the .eml file
+with open('出票成功确认.eml', 'r') as file:
+    msg = email.message_from_file(file)
 
+# Get the email body
+if msg.is_multipart():
+    for part in msg.walk():
+        if part.get_content_type() == 'text/html':
+            body = part.get_payload(decode=True).decode()
+            break
+else:
+    body = msg.get_payload(decode=True).decode()
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+# Convert the email body to PDF
+pdfkit.from_string(body, 'output.pdf')
