@@ -27,7 +27,7 @@ class User:
 
 
 class Block:
-    def __init__(self, index, transactions, previous_hash, miner, difficulty=1):
+    def __init__(self, index, transactions, previous_hash, miner, difficulty=0):
         self.index = index
         self.transactions = transactions  # Store user transactions
         self.previous_hash = previous_hash
@@ -43,24 +43,26 @@ class Block:
                       str(self.nonce) + self.miner)
         return hashlib.sha256(block_data.encode()).hexdigest()
 
-    def mine_block(self):
+    def mine_block(self, miner_compute_power=1):
         # Proof of Work
         target = "0" * self.difficulty
         while not self.hash.startswith(target):
             self.nonce += 1
             self.hash = self.calculate_hash()
+            time.sleep(1 / miner_compute_power)  # Adjust speed based on computational power
         print(f"Block mined successfully by {self.miner}: {self.hash}")
+
+
+def create_genesis_block():
+    return Block(0, "Genesis Block", "0", "Genesis", difficulty=0)
 
 
 class Blockchain:
     def __init__(self, manager):
-        self.chain = manager.list([self.create_genesis_block()])
+        self.chain = manager.list([create_genesis_block()])
         self.users = manager.dict()
         self.miner_reward = 10  # Reward for mining a block
         self.lock = Lock()  # Lock for synchronizing block additions
-
-    def create_genesis_block(self):
-        return Block(0, "Genesis Block", "0", "Genesis", difficulty=1)
 
     def add_user(self, username, birthdate, password, balance=0):
         with self.lock:
@@ -71,7 +73,7 @@ class Blockchain:
                 print(f"Username {username} already exists.")
 
     def create_transaction(self, sender_username, receiver_username, amount, miner_username):
-        with self.lock:
+        # with self.lock:
             sender = self.users.get(sender_username)
             receiver = self.users.get(receiver_username)
             miner = self.users.get(miner_username)
@@ -93,22 +95,28 @@ class Blockchain:
                 print("Transaction failed: One or more users do not exist.")
 
     def add_block(self, transaction, miner):
-        with self.lock:  # Ensure only one miner can add a block at a time
-            previous_block = self.chain[-1]
-            new_block = Block(len(self.chain), transaction, previous_block.hash, miner, difficulty=1)
-            new_block.mine_block()  # Call mine_block from Block class to mine the block
-            self.chain.append(new_block)
-            print(f"Block added with transaction: {transaction}, mined by {miner}")
-
-    def mine_block(self, miner_username="Miner"):
-        # This method can also be used for mining without transactions
         with self.lock:
             previous_block = self.chain[-1]
-            new_block = Block(len(self.chain), "No Transactions", previous_block.hash, miner_username, difficulty=1)
-            new_block.mine_block()  # Mine the new block
+            new_block = Block(
+                index=len(self.chain),
+                transactions=transaction,
+                previous_hash=previous_block.hash,
+                miner=miner,
+                difficulty=1
+            )
+            new_block.mine_block()
             self.chain.append(new_block)
-            print(f"Block mined and added by {miner_username} with hash: {new_block.hash}")
-            return new_block  # Return the mined block for any further processing
+            print(f"Block added with transaction: {transaction}, mined by {miner}")
+            return new_block  # Return the block for further use in backend.py
+
+    def view_ledger(self):
+        for block in self.chain:
+            print(f"\nBlock {block.index}:")
+            print(f"Transactions: {block.transactions}")
+            print(f"Previous Hash: {block.previous_hash}")
+            print(f"Hash: {block.hash}")
+            print(f"Miner: {block.miner}")
+            print(f"Timestamp: {time.ctime(block.timestamp)}")
 
 
 def mining_simulation(blockchain, miner_username, stop_queue):
@@ -117,12 +125,13 @@ def mining_simulation(blockchain, miner_username, stop_queue):
             sender = random.choice(list(blockchain.users.values()))
             receiver = random.choice([user for user in blockchain.users.values() if user != sender])
 
+            # Ensure the sender has enough balance for a transaction
             if sender.get_balance() > 1:
                 amount = random.randint(1, sender.get_balance())
                 blockchain.create_transaction(sender.username, receiver.username, amount, miner_username)
+                print(f"Transaction: {sender.username} sent {amount} to {receiver.username}")
             else:
                 print(f"{sender.username} has insufficient balance for a transaction.")
-            time.sleep(2)  # Simulate time taken between transactions
     except KeyboardInterrupt:
         print(f"Miner {miner_username} stopping mining due to KeyboardInterrupt.")
 

@@ -20,6 +20,8 @@ body {
 }
 
 #blockchain-container {
+    scroll-behavior: smooth;
+
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -1,7 +1,8 @@
 const socket = io.connect('http://localhost:5001');
-const blockchainContainer = document.getElementById("blockchain-container");
+const blockchainContainer = document.getElementById("blockchain-container"); // Make sure this ID matches the HTML
 
 socket.on('new_block', (block) => {
+    console.log("Received block:", block);
     addBlock(block);
 });
 
