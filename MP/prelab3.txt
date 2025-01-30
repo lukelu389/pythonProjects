@@ -1,0 +1,31 @@
+Q1
+valid examples:
+example 1:
+x = 2
+
+example 2:
+top3ScoresOfClass = [90, 100, 95]
+
+example 3"
+Whiletrue = True
+
+Q2
+invalid names:
+example 1
+@ = 2
+variable names could not contain any special characters in python except $ at the start of the name and _ in between characters
+
+example 2
+while = True
+while is a reserved word for while-loops, cannot be used as variable names
+
+example 3
+3topscoreofClass = [90, 100, 95]
+variable names can end with numbers but cannot start with numbers
+
+Q3
+x = 4.2 never modified
+z = 2 -> x = 2.1 -> x = 4.2
+y = 10 -> y = 12.1
+
+

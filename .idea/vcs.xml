@@ -3,6 +3,5 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ChatGPT" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/welcome-to-docker" vcs="Git" />
   </component>
 </project>
