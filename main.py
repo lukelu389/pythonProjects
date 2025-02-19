@@ -43,38 +43,9 @@ Given an array and queries of the form "x mod k = r", reconstruct the hidden num
 Concepts: CRT (Chinese Remainder Theorem), constructive math.
 
 """
-import sys
-sys.setrecursionlimit(300000)
 
-N, M = list(map(int, input().split()))
-adj = [[] for i in range(N + 1)]
-path = ["G"] * M
-
-for i in range(M):
-    u, v = list(map(int, input().split()))
-    adj[u].append([v, i])
-    adj[v].append([u, i])
-
-visited = [False] * (N + 1)
-
-
-def dfs(node, state):
-    for height, index in adj[node]:
-        if visited[height]:
-            continue
-        visited[height] = True
-        if path[index] == "G":
-            if state == 0:
-                path[index] = "R"
-            else:
-                path[index] = "B"
-
-        dfs(height, state ^ 1)
-
-
-for n in range(1, N+1):
-    if not visited[n]:
-        visited[n] = True
-        dfs(n, 0)
-
-print("".join(path))
+# Senior1 - simple math - goal AC
+# Senior2 - string manipulation - goal AC
+# Senior3 - constructive - goal High Partial
+# Senior4 - dp - goal - Partial
+# Senior5 - graph theory - first subtask

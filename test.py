@@ -244,7 +244,7 @@ def lca(root, n1, n2):
 
     # Compare the paths to get the first different value
     i = 0
-    while (i < len(path1) and i < len(path2)):
+    while i < len(path1) and i < len(path2):
         if path1[i] != path2[i]:
             break
         i += 1
@@ -294,7 +294,7 @@ if __name__ == '__main__':
 #     def DFSUtil(self, v, visited):
 #         # Mark the current node as visited
 #         visited[v] = True
-# 
+#
 #         # Recur for all the vertices adjacent to this vertex
 #         for i in self.graph[v]:
 #             if visited[i] == False:
