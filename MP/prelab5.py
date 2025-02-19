@@ -13,4 +13,3 @@
 # plt.plot(x, y, color='orange')
 # plt.title("2431125 - Xiao(Luke) Lu")
 # plt.show()
-
